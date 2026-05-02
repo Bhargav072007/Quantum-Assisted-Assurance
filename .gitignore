@@ -1,5 +1,6 @@
 .venv/
 .python_packages/
 .pytest_cache/
+pytest-cache-files-*/
 __pycache__/
 *.pyc

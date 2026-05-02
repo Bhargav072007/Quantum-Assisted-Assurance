@@ -94,22 +94,90 @@ def _table_rows(rows: Iterable[Dict[str, Any]]) -> str:
     return "".join(rendered)
 
 
+def _distilled_rows(rows: Iterable[Dict[str, Any]]) -> str:
+    rendered = []
+    for index, item in enumerate(rows, start=1):
+        rendered.append(
+            "<tr>"
+            f"<td>{index}</td>"
+            f"<td>{item['int_heading']:.0f} deg</td>"
+            f"<td>{item['int_altitude']:.0f} ft</td>"
+            f"<td>{item['int_speed']:.1f}</td>"
+            f"<td>{item['int_x_offset']:.0f} NM</td>"
+            f"<td>{item['teacher_prob']:.3f}</td>"
+            f"<td>{item['quantum_score']:.3f}</td>"
+            f"<td>{item['distilled_target']:.3f}</td>"
+            f"<td>{item['hard_label']:.0f}</td>"
+            "</tr>"
+        )
+    return "".join(rendered)
+
+
 def render_dashboard() -> Path:
     comparison = _load_json(OUT / "comparison.json")
+    quantum_tree_path = OUT / "quantum_tree_results.json"
+    quantum_tree = _load_json(quantum_tree_path) if quantum_tree_path.exists() else None
     summary = comparison["summary"]
     verdict = "QAOA outperforms Monte Carlo" if comparison["winner"] == "QAOA" else "Monte Carlo remains stronger"
+    quantum_tag = ""
+    quantum_section = ""
+    if quantum_tree is not None:
+        quantum_tag = f' <span class="tag alt-tag">Quantum Tree active: {html.escape(quantum_tree["summary"]["quantum_backend"])}</span>'
+        architecture_items = "".join(
+            f"<li>{html.escape(item)}</li>" for item in quantum_tree["architecture"]
+        )
+        quantum_section = f"""
+    <section class="subgrid four-up">
+      <div class="card stats">
+        <h2>Quantum Tree - Architecture</h2>
+        <ol class="stack-list">{architecture_items}</ol>
+      </div>
+      <div class="card stats">
+        <h2>Quantum Tree - Teacher</h2>
+        <p><span>Teacher accuracy</span><strong>{quantum_tree['summary']['teacher_accuracy']}</strong></p>
+        <p><span>Teacher loss</span><strong>{quantum_tree['summary']['teacher_loss']}</strong></p>
+        <p><span>Mean teacher prob</span><strong>{quantum_tree['summary']['mean_teacher_prob']}</strong></p>
+      </div>
+      <div class="card stats">
+        <h2>Quantum Tree - Quantum Layer</h2>
+        <p><span>Backend</span><strong>{html.escape(quantum_tree['summary']['quantum_backend'])}</strong></p>
+        <p><span>Mean quantum score</span><strong>{quantum_tree['summary']['mean_quantum_score']}</strong></p>
+        <p><span>Student mean score</span><strong>{quantum_tree['summary']['mean_student_score']}</strong></p>
+      </div>
+      <div class="card stats">
+        <h2>Quantum Tree - Student</h2>
+        <p><span>Student MSE</span><strong>{quantum_tree['summary']['student_mse']}</strong></p>
+        <p><span>Top distilled states</span><strong>{len(quantum_tree['top_distilled_states'])}</strong></p>
+        <p><span>Use case</span><strong>Teacher -> Quantum -> Student</strong></p>
+      </div>
+    </section>
+
+    <section class="card full">
+      <h2>Quantum Tree - Top distilled training states</h2>
+      <div class="small">These rows are the distilled teacher-plus-quantum signals intended to train the autonomous student model.</div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>Heading</th><th>Altitude</th><th>Speed</th><th>X offset</th><th>Teacher</th><th>Quantum</th><th>Distilled</th><th>Label</th>
+          </tr>
+        </thead>
+        <tbody>{_distilled_rows(quantum_tree['top_distilled_states'])}</tbody>
+      </table>
+    </section>
+"""
     html_doc = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QAA Phase 2 Dashboard</title>
+  <title>QAA Quantum Exploration Dashboard</title>
   <style>
     :root {{
       --bg: #eef4ff;
       --ink: #10233f;
       --card: #ffffff;
       --border: #dbe6f4;
+      --quantum-tree: #0f766e;
     }}
     * {{ box-sizing: border-box; }}
     body {{ margin: 0; font-family: "Segoe UI", Tahoma, sans-serif; background: radial-gradient(circle at top, #f9fbff 0%, var(--bg) 72%); color: var(--ink); }}
@@ -117,28 +185,37 @@ def render_dashboard() -> Path:
     .hero {{ background: linear-gradient(135deg, #0f172a, #1d4ed8); color: white; border-radius: 24px; padding: 28px; box-shadow: 0 24px 60px rgba(37, 99, 235, 0.18); }}
     .hero h1 {{ margin: 0 0 8px; font-size: 2rem; }}
     .hero p {{ margin: 0; max-width: 840px; color: rgba(255,255,255,0.82); }}
-    .hero .tag {{ display: inline-block; margin-top: 14px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,0.12); font-size: 0.88rem; }}
+    .hero .tag {{ display: inline-block; margin-top: 14px; margin-right: 10px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,0.12); font-size: 0.88rem; }}
+    .hero .alt-tag {{ background: rgba(16, 185, 129, 0.18); }}
     .verdict {{ margin-top: 20px; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 14px; }}
     .card {{ background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 20px; box-shadow: 0 18px 42px rgba(15, 23, 42, 0.06); }}
     .card h2, .card h3 {{ margin: 0 0 14px; }}
     .grid {{ display: grid; grid-template-columns: 1.35fr 1fr; gap: 18px; margin-top: 18px; }}
     .subgrid {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 18px; }}
+    .four-up {{ grid-template-columns: repeat(4, 1fr); }}
     .full {{ margin-top: 18px; }}
     .stats p {{ display: flex; justify-content: space-between; gap: 12px; margin: 8px 0; padding-bottom: 8px; border-bottom: 1px solid #edf2f7; }}
     .stats p:last-child {{ border-bottom: none; }}
+    .stack-list {{ margin: 0; padding-left: 18px; color: #234; line-height: 1.6; }}
     pre {{ margin: 0; padding: 14px; border-radius: 16px; overflow-x: auto; background: #0f172a; color: #dbeafe; }}
     table {{ width: 100%; border-collapse: collapse; font-size: 0.92rem; }}
     th, td {{ padding: 10px 12px; border-bottom: 1px solid #e5edf7; text-align: left; }}
     th {{ font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: #5b6b82; }}
     .small {{ color: #5b6b82; font-size: 0.92rem; }}
+    @media (max-width: 1100px) {{
+      .subgrid, .four-up {{ grid-template-columns: repeat(2, 1fr); }}
+    }}
+    @media (max-width: 820px) {{
+      .grid, .subgrid, .four-up, .verdict {{ grid-template-columns: 1fr; }}
+    }}
   </style>
 </head>
 <body>
   <div class="shell">
     <section class="hero">
-      <h1>QAA Phase 2 - QAOA Exploration Dashboard</h1>
-      <p>Quantum-assisted search over the Phase 2 3D two-aircraft separation scenario. This dashboard is fully self-contained and compares QAOA-guided exploration with a same-budget Monte Carlo baseline.</p>
-      <div class="tag">{html.escape(comparison['question'])}</div>
+      <h1>QAA Quantum Exploration Dashboard</h1>
+      <p>This dashboard compares baseline search performance and the new Quantum Tree distillation architecture for the 3D two-aircraft separation scenario. Monte Carlo and QAOA remain directly comparable by iterations, while Quantum Tree is shown as a teacher-quantum-student training pipeline.</p>
+      <div class="tag">{html.escape(comparison['question'])}</div>{quantum_tag}
       <div class="verdict">
         <div class="card"><h3>Research verdict</h3><div>{html.escape(verdict)}</div></div>
         <div class="card"><h3>AUC advantage</h3><div>{summary['auc_advantage_pct']}%</div></div>
@@ -193,6 +270,7 @@ def render_dashboard() -> Path:
         <tbody>{_table_rows(comparison['top_failures'])}</tbody>
       </table>
     </section>
+{quantum_section}
   </div>
 </body>
 </html>"""
