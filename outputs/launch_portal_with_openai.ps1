@@ -1,0 +1,6 @@
+﻿Set-Location "C:\Users\msrib\OneDrive\Documents - OneDrive\Playground\qaa_codex"
+$env:MEGHYAN_LLM_MODE = "openai_compatible"
+$env:MEGHYAN_LLM_ENDPOINT = "https://api.openai.com/v1"
+$env:MEGHYAN_LLM_API_KEY = "YOUR_OPENAI_API_KEY"
+$env:MEGHYAN_LLM_MODEL = "gpt-5.4-mini"
+& ".\.venv\Scripts\python.exe" -c "from meghyan_portal.app import app; app.run(host='127.0.0.1', debug=False, use_reloader=False, port=5055)"

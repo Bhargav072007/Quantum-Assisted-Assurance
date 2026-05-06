@@ -1,0 +1,93 @@
+{% extends "app_base.html" %}
+{% block app_title %}Analyst{% endblock %}
+{% block app_subtitle %}A chat-style LLM workspace with memory, customer-safe reporting, and live Quantum Tree context.{% endblock %}
+{% block app_content %}
+<section class="assistant-workspace">
+  <aside class="assistant-rail panel panel-clean">
+    <div class="panel-header">
+      <h2>Threads</h2>
+      <span class="status-pill">{{ metrics.assistant_threads|length }}</span>
+    </div>
+    {% if metrics.llm_status.mode == 'local' %}
+    <p class="panel-copy">
+      You are currently using the local analyst preview. It uses the live MeghyanAI results,
+      but it is not the stronger provider-backed model.
+    </p>
+    {% endif %}
+    {% if not metrics.llm_status.provider_ready and metrics.llm_status.mode in ('openai_compatible', 'anthropic') %}
+    <p class="panel-copy">
+      External provider mode is selected, but the API key is missing. Complete configuration before relying on this workspace.
+    </p>
+    {% endif %}
+    <div class="thread-list" data-thread-list>
+      {% for thread in metrics.assistant_threads[:10] %}
+      <a class="thread-item {% if active_thread and thread.thread_id == active_thread.thread_id %}active{% endif %}" href="{{ url_for('assistant') }}?thread={{ thread.thread_id }}" data-thread-id="{{ thread.thread_id }}">
+        <strong>{{ thread.title }}</strong>
+        <span>{{ thread.mode|title }} mode</span>
+      </a>
+      {% else %}
+      <p class="empty-copy">No threads yet. Start one from the composer.</p>
+      {% endfor %}
+    </div>
+  </aside>
+
+  <section class="assistant-main">
+    <article class="panel panel-clean assistant-chat-shell">
+      <div class="panel-header">
+        <h2>{{ active_thread.title if active_thread else 'New conversation' }}</h2>
+        <span class="status-pill">{{ metrics.llm_status.model }}</span>
+      </div>
+      <p class="panel-copy analyst-mode-note">
+        {{ 'Provider-backed analyst is active.' if metrics.llm_status.provider_ready and metrics.llm_status.mode in ('openai_compatible', 'anthropic') else 'Local analyst preview is active. Responses are grounded in your live run data, but they are not using the external LLM yet.' }}
+      </p>
+      <div class="assistant-mode-switch" data-mode-switch>
+        <button class="mode-chip {% if not active_thread or active_thread.mode == 'internal' %}active{% endif %}" type="button" data-mode="internal">Internal analysis</button>
+        <button class="mode-chip {% if active_thread and active_thread.mode == 'customer' %}active{% endif %}" type="button" data-mode="customer">Customer report</button>
+      </div>
+      <div class="assistant-prompt-grid">
+        <button class="assistant-prompt" type="button" data-assistant-prompt="What is the highest-risk scenario in the latest run and why?">
+          Highest-risk scenario
+          <span>Explain what failed and why it matters.</span>
+        </button>
+        <button class="assistant-prompt" type="button" data-assistant-prompt="Rewrite the current risk posture as a customer-safe executive summary.">
+          Customer-safe summary
+          <span>Turn technical findings into buyer-ready language.</span>
+        </button>
+        <button class="assistant-prompt" type="button" data-assistant-prompt="What should the ML team fix first based on the latest Quantum Tree results?">
+          Recommended next fix
+          <span>Prioritize the next engineering action.</span>
+        </button>
+      </div>
+      <div class="assistant-chat-log" data-chat-log>
+        {% if active_thread and active_thread.messages %}
+          {% for message in active_thread.messages %}
+          <div class="chat-message {{ message.role }}">
+            <div class="chat-meta">
+              <strong>{{ 'Meghyan Analyst' if message.role == 'assistant' else current_user.name }}</strong>
+              <span>{{ message.model if message.role == 'assistant' else active_thread.mode|title ~ ' mode' }}</span>
+            </div>
+            <div class="chat-body">{{ message.content }}</div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <div class="chat-empty">
+            <p>Start an internal analysis thread or draft a customer-safe report.</p>
+          </div>
+        {% endif %}
+      </div>
+      <form class="assistant-composer" data-assistant-form>
+        <input type="hidden" name="thread_id" value="{{ active_thread.thread_id if active_thread else '' }}">
+        <input type="hidden" name="mode" value="{{ active_thread.mode if active_thread else 'internal' }}">
+        <label>
+          <span>Prompt</span>
+          <textarea name="prompt" rows="4" placeholder="Explain the current benchmark posture and turn it into a customer-ready assurance summary."></textarea>
+        </label>
+        <div class="action-row">
+          <button class="button button-primary" type="submit">Send</button>
+        </div>
+      </form>
+    </article>
+
+  </section>
+</section>
+{% endblock %}

@@ -4,3 +4,14 @@
 pytest-cache-files-*/
 __pycache__/
 *.pyc
+.env
+.env.local
+.env.*
+outputs/portal_state.json
+outputs/*_stdout.log
+outputs/*_stderr.log
+_icds_request.zip
+_icds_request/
+_icds_updated.zip
+_icds_updated/
+_icds_updated_paragraphs.txt

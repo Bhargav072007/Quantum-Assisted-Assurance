@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Sign in | MeghyanAI{% endblock %}
+{% block body %}
+<div class="login-screen">
+  <div class="login-wrap">
+
+    <section class="login-copy">
+      <a class="brand-lockup login-brandline" href="{{ url_for('landing') }}">
+        <img src="{{ url_for('static', filename='img/mark-white.svg') }}" alt="MeghyanAI" style="width:36px;height:36px;border-radius:8px;">
+        <strong style="font-size:16px;font-weight:600;letter-spacing:-0.03em;">MeghyanAI</strong>
+      </a>
+      <h1>Enter the workspace.</h1>
+      <p>
+        A quieter layer over the live Quantum Tree system for red team runs, reports,
+        and customer review.
+      </p>
+    </section>
+
+    <section class="login-card login-card-centered">
+      <div class="login-card-header">
+        <p class="eyebrow">Sign in</p>
+        <h2>Continue</h2>
+      </div>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-stack">
+            {% for category, message in messages %}
+              <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      <form method="post" class="login-form">
+        <label>
+          <span>Email</span>
+          <input name="email" type="email" placeholder="you@example.com" required>
+        </label>
+        <label>
+          <span>Password</span>
+          <input name="password" type="password" placeholder="••••••••" required>
+        </label>
+        <button class="button button-primary" type="submit">Continue</button>
+      </form>
+      <p class="login-note">Contact your workspace admin for access.</p>
+    </section>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "app_base.html" %}
+{% block app_title %}Runs{% endblock %}
+{% block app_subtitle %}Live jobs, customer sessions, and internal benchmark runs.{% endblock %}
+{% block app_content %}
+
+<section class="panel panel-clean">
+  <div class="panel-header">
+    <h2>Run history</h2>
+    <span class="status-pill">{{ metrics.run_history|length }} total</span>
+  </div>
+
+  {% for run in metrics.run_history %}
+  <div class="run-row">
+    <div>
+      <strong>{{ run.run_type|default('Benchmark run')|title }}</strong>
+      <p>{{ run.email|default('internal') }} · {{ run.summary|default('') }}</p>
+    </div>
+    <div class="run-meta">
+      <span class="vr-status-chip vr-{{ run.status|default('complete')|lower|replace(' ', '-') }}">{{ run.status|default('complete')|title }}</span>
+      <small>{{ run.cost|default('') }}</small>
+    </div>
+  </div>
+  {% else %}
+  <p class="empty-copy">No runs have been launched through the portal yet.</p>
+  {% endfor %}
+</section>
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "app_base.html" %}
+{% block app_title %}Admin Access{% endblock %}
+{% block app_subtitle %}Internal control plane for YC demos, enterprise pilots, and unlimited admin usage.{% endblock %}
+{% block app_content %}
+<section class="two-column">
+  <article class="panel panel-clean">
+    <div class="panel-header">
+      <h2>Workspace users</h2>
+    </div>
+    <div class="run-list">
+      {% for user in users %}
+      <div class="run-row">
+        <div>
+          <strong>{{ user.name }}</strong>
+          <p>{{ user.email }} · {{ user.company }}</p>
+        </div>
+        <div class="run-meta">
+          <span>{{ user.role }}</span>
+          <small>{{ 'Unlimited' if user.credits is none else user.credits ~ ' credits' }}</small>
+          <small>{{ 'Unlimited tokens' if user.token_balance is none else user.token_balance ~ ' tokens' }}</small>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </article>
+  <article class="panel panel-clean">
+    <div class="panel-header">
+      <h2>Admin story for YC</h2>
+    </div>
+    <p class="panel-copy">
+      Admin accounts stay unmetered so MeghyanAI can operate the platform as an internal assurance product,
+      while customer pilots consume both runs and analyst tokens. That makes the pricing and access model
+      feel like software instead of a public demo.
+    </p>
+  </article>
+</section>
+
+<section class="two-column">
+  <article class="panel panel-clean">
+    <div class="panel-header">
+      <h2>LLM provider status</h2>
+      <span class="status-pill">{{ 'Ready' if metrics.llm_status.provider_ready else 'Local fallback' }}</span>
+    </div>
+    <ul class="detail-list compact">
+      <li><span>Mode</span><strong>{{ metrics.llm_status.mode }}</strong></li>
+      <li><span>Model</span><strong>{{ metrics.llm_status.model }}</strong></li>
+      <li><span>Provider ready</span><strong>{{ 'Yes' if metrics.llm_status.provider_ready else 'No' }}</strong></li>
+    </ul>
+  </article>
+  <article class="panel panel-clean">
+    <div class="panel-header">
+      <h2>Enable stronger model</h2>
+    </div>
+    <p class="panel-copy">
+      To move the analyst from the local fallback to a stronger provider-backed model, set
+      `MEGHYAN_LLM_MODE=openai_compatible` and provide the endpoint, API key, and model name
+      in the environment before starting the portal.
+    </p>
+  </article>
+</section>
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}Pricing | MeghyanAI{% endblock %}
+{% block body %}
+<div class="site-shell">
+  <header class="nav" data-nav>
+    <div class="nav-inner">
+      <a class="brand-lockup" href="{{ url_for('landing') }}">
+        <img class="brand-lockup-full" src="{{ url_for('static', filename='img/lockup-white.png') }}" alt="MeghyanAI">
+        <img class="brand-lockup-mark" src="{{ url_for('static', filename='img/mark-white.svg') }}" alt="MeghyanAI">
+      </a>
+      <nav class="nav-links">
+        <a href="{{ url_for('landing') }}#how-it-works">How it works</a>
+        <a href="{{ url_for('landing') }}#packages">Packages</a>
+        <a href="{{ url_for('pricing') }}">Pricing</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="button button-secondary" href="{{ url_for('login') }}">Sign In</a>
+        <a class="button button-primary" href="{{ url_for('landing') }}#live-demo">Try Free</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Pricing</span>
+          <h1 class="section-title">Straightforward pricing. Real quantum results.</h1>
+          <p class="section-copy">
+            Pick the workflow that matches how your team buys assurance: per run, monthly access,
+            or full audit evidence.
+          </p>
+        </div>
+
+        <div class="billing-toggle reveal" data-billing-toggle>
+          <button class="mode-chip active" type="button" data-billing-mode="run">Per-run</button>
+          <button class="mode-chip" type="button" data-billing-mode="monthly">Monthly</button>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="pricing-card reveal">
+            <span class="tier-redteam">Red Team Scan</span>
+            <div class="price">
+              <strong data-price-run>$2,500</strong>
+              <strong data-price-monthly hidden>$7,000</strong>
+              <span data-price-label>/run</span>
+            </div>
+            <p class="card-copy">For startup and product teams who need a decisive pre-release stress test.</p>
+            <ul class="pricing-features">
+              <li>Single policy red team run</li>
+              <li>Failure catalog with severity ranking</li>
+              <li>Decision trace export</li>
+            </ul>
+          </article>
+
+          <article class="pricing-card featured reveal">
+            <span class="tier-api">Scenario API</span>
+            <div class="price">
+              <strong data-price-run>$0.10</strong>
+              <strong data-price-monthly>$500</strong>
+              <span data-price-label>/scenario</span>
+            </div>
+            <p class="card-copy">For simulation and ML teams that need continuous rare-event generation.</p>
+            <ul class="pricing-features">
+              <li>Quantum-biased scenario batches</li>
+              <li>JSON delivery for training pipelines</li>
+              <li>Recurring edge-case feeds</li>
+            </ul>
+          </article>
+
+          <article class="pricing-card reveal">
+            <span class="tier-cert">Certification Pack</span>
+            <div class="price">
+              <strong data-price-run>$10,000</strong>
+              <strong data-price-monthly hidden>$18,000</strong>
+              <span data-price-label>/audit</span>
+            </div>
+            <p class="card-copy">For aerospace and enterprise buyers who need evidence they can take into review.</p>
+            <ul class="pricing-features">
+              <li>Full pipeline evidence package</li>
+              <li>Comparator outputs and coverage metrics</li>
+              <li>Formal review-ready artifacts</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="page-section tight">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">FAQ</span>
+          <h2 class="section-title">What buyers usually ask first.</h2>
+        </div>
+        <div class="faq-list">
+          <article class="faq-item reveal">
+            <button class="faq-question" type="button" data-faq-toggle>
+              <span>Is the demo using the real pipeline?</span>
+              <strong>+</strong>
+            </button>
+            <div class="faq-answer" hidden>
+              Yes. The free demo calls the actual Quantum Tree pipeline in fast mode and returns real
+              results from the Qiskit-backed flow.
+            </div>
+          </article>
+          <article class="faq-item reveal">
+            <button class="faq-question" type="button" data-faq-toggle>
+              <span>What changes between the demo and a paid run?</span>
+              <strong>+</strong>
+            </button>
+            <div class="faq-answer" hidden>
+              Paid runs use the slower full preset, deeper scenario exploration, and fuller reporting
+              artifacts for product and compliance teams.
+            </div>
+          </article>
+          <article class="faq-item reveal">
+            <button class="faq-question" type="button" data-faq-toggle>
+              <span>Who buys the Certification Pack?</span>
+              <strong>+</strong>
+            </button>
+            <div class="faq-answer" hidden>
+              Aerospace primes, defense contractors, and enterprise autonomy teams preparing formal
+              review, audit, or safety evidence packages.
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="brand-lockup">
+        <img class="brand-lockup-full" src="{{ url_for('static', filename='img/lockup-white.png') }}" alt="MeghyanAI">
+        <img class="brand-lockup-mark" src="{{ url_for('static', filename='img/mark-white.svg') }}" alt="MeghyanAI">
+      </div>
+      <div class="footer-links">
+        <a href="{{ url_for('landing') }}">Home</a>
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="https://github.com/Bhargav072007/Quantum-Assisted-Assurance">GitHub</a>
+      </div>
+    </div>
+  </footer>
+</div>
+{% endblock %}

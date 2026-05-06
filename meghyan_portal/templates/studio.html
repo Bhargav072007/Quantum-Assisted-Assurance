@@ -1,0 +1,143 @@
+{% extends "app_base.html" %}
+{% block app_title %}Quantum Tree Studio{% endblock %}
+{% block app_subtitle %}The live three-layer workflow behind every MeghyanAI run.{% endblock %}
+{% block app_content %}
+
+<section class="panel panel-clean">
+  <div class="panel-header">
+    <h2>Upload your AI policy</h2>
+    <span class="status-pill">Studio intake</span>
+  </div>
+  <section class="upload-section">
+    <div class="upload-zone" id="upload-zone">
+      <div class="upload-icon">↑</div>
+      <p class="upload-title">Upload your AI policy</p>
+      <p class="upload-sub">Drag and drop or click to select</p>
+      <p class="upload-formats">Accepts: .onnx · .pt · .pkl · .json · .zip</p>
+      <input type="file" id="file-input" accept=".onnx,.pt,.pkl,.json,.zip" style="display:none"/>
+    </div>
+    <div class="upload-status" id="upload-status" style="display:none">
+      <span class="status-filename" id="status-filename"></span>
+      <span class="status-badge">Queued for analysis</span>
+      <p class="status-note">Your model will be analyzed using the Quantum Tree pipeline. Results appear in Runs.</p>
+    </div>
+  </section>
+</section>
+
+<section class="hero-panel" style="margin-top: 18px;">
+  <div class="hero-panel-copy">
+    <span class="eyebrow">Live pipeline</span>
+    <h2>Teacher, quantum, student. One real analysis chain.</h2>
+    <p class="panel-copy">
+      This workspace reads directly from <code>outputs/quantum_tree_results.json</code> and
+      can launch a fresh Quantum Tree pass whenever you need updated evidence.
+    </p>
+    <div class="detail-pills">
+      <span class="badge">Backend: {{ metrics.quantum_tree.summary.quantum_backend or 'n/a' }}</span>
+      <span class="badge">Teacher: {{ metrics.quantum_tree.summary.teacher_accuracy or 'n/a' }}</span>
+      <span class="badge">Student MSE: {{ metrics.quantum_tree.summary.student_mse or 'n/a' }}</span>
+    </div>
+    <div class="hero-actions" style="margin-top: 22px;">
+      <button class="button button-primary js-run" data-endpoint="/api/run/quantum-tree">Run new analysis</button>
+      <a class="button button-secondary" href="{{ url_for('api_results_latest') }}" download="quantum_tree_results.json">Export JSON</a>
+    </div>
+  </div>
+  <div class="summary-stack">
+    <div class="summary-chip">
+      <span>Top distilled states</span>
+      <strong>{{ metrics.quantum_tree.top_distilled_states|length }}</strong>
+    </div>
+    <div class="summary-chip">
+      <span>Mean quantum score</span>
+      <strong>{{ metrics.quantum_tree.summary.mean_quantum_score or 'n/a' }}</strong>
+    </div>
+    <div class="summary-chip">
+      <span>Student score mean</span>
+      <strong>{{ metrics.quantum_tree.summary.mean_student_score or 'n/a' }}</strong>
+    </div>
+  </div>
+</section>
+
+<section class="studio-grid" style="margin-top: 18px;">
+  <article class="stage-card">
+    <span class="label">Layer 1</span>
+    <h2>Classical Teacher</h2>
+    <p class="card-copy">Maps the behavior surface before quantum search prioritizes the risky regions.</p>
+    <ul class="detail-list compact">
+      <li><span>Status</span><strong>Ready</strong></li>
+      <li><span>Accuracy</span><strong>{{ metrics.quantum_tree.summary.teacher_accuracy or 'n/a' }}</strong></li>
+      <li><span>Loss</span><strong>{{ metrics.quantum_tree.summary.teacher_loss or 'n/a' }}</strong></li>
+      <li><span>Artifacts</span><strong>Teacher probabilities</strong></li>
+    </ul>
+  </article>
+  <article class="stage-card">
+    <span class="label">Layer 2</span>
+    <h2>Quantum Refinement</h2>
+    <p class="card-copy">IBM Qiskit-compatible sampling pushes attention toward rare-event structure.</p>
+    <ul class="detail-list compact">
+      <li><span>Status</span><strong>Live</strong></li>
+      <li><span>Backend</span><strong>{{ metrics.quantum_tree.summary.quantum_backend or 'n/a' }}</strong></li>
+      <li><span>Mean score</span><strong>{{ metrics.quantum_tree.summary.mean_quantum_score or 'n/a' }}</strong></li>
+      <li><span>Artifacts</span><strong>Quantum scores</strong></li>
+    </ul>
+  </article>
+  <article class="stage-card">
+    <span class="label">Layer 3</span>
+    <h2>Distilled Student</h2>
+    <p class="card-copy">Turns the hybrid run into a reusable assurance signal for future testing.</p>
+    <ul class="detail-list compact">
+      <li><span>Status</span><strong>Ready</strong></li>
+      <li><span>Student MSE</span><strong>{{ metrics.quantum_tree.summary.student_mse or 'n/a' }}</strong></li>
+      <li><span>Mean student score</span><strong>{{ metrics.quantum_tree.summary.mean_student_score or 'n/a' }}</strong></li>
+      <li><span>Artifacts</span><strong>Distilled targets</strong></li>
+    </ul>
+  </article>
+</section>
+
+<section class="two-column" style="margin-top: 18px;">
+  <article class="panel panel-clean">
+    <div class="panel-header">
+      <h2>Failure ranking</h2>
+      <span class="status-pill">Live pipeline data</span>
+    </div>
+    <div class="table-like">
+      <div class="table-head five">
+        <span>Heading</span>
+        <span>Altitude</span>
+        <span>Speed</span>
+        <span>Target</span>
+        <span>Label</span>
+      </div>
+      {% for row in metrics.quantum_tree.top_distilled_states[:8] %}
+      <div class="table-row five">
+        <span>{{ row.int_heading }}</span>
+        <span>{{ row.int_altitude }}</span>
+        <span>{{ row.int_speed }}</span>
+        <span>{{ "%.3f"|format(row.distilled_target) }}</span>
+        <span>{{ row.hard_label }}</span>
+      </div>
+      {% else %}
+      <p class="empty-copy" style="padding: 16px;">No Quantum Tree results are available yet.</p>
+      {% endfor %}
+    </div>
+  </article>
+
+  <article class="panel panel-clean">
+    <div class="panel-header">
+      <h2>Output snapshot</h2>
+      <span class="status-pill">JSON export</span>
+    </div>
+    <ul class="detail-list compact">
+      <li><span>Architecture stages</span><strong>{{ metrics.quantum_tree.architecture|length or 0 }}</strong></li>
+      <li><span>Top states stored</span><strong>{{ metrics.quantum_tree.top_distilled_states|length }}</strong></li>
+      <li><span>Scenario count</span><strong>{{ metrics.quantum_tree.n_scenarios or 'n/a' }}</strong></li>
+      <li><span>Failures found</span><strong>{{ metrics.quantum_tree.failures_found or 'n/a' }}</strong></li>
+    </ul>
+    <p class="panel-copy" style="margin-top: 18px;">
+      Use the export button to hand the current results to a customer, investor, or downstream
+      reporting workflow without leaving the Studio.
+    </p>
+  </article>
+</section>
+
+{% endblock %}

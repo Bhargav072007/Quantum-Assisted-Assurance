@@ -1,0 +1,125 @@
+{% extends "app_base.html" %}
+{% block app_title %}Reports{% endblock %}
+{% block app_subtitle %}Assurance outputs, benchmark posture, and verification requests.{% endblock %}
+{% block app_content %}
+
+<div class="report-kpi-row reveal">
+  <article class="report-kpi">
+    <span>Risk score</span>
+    <strong>{{ metrics.latest_run.risk_score|default(metrics.latest_tree_risk) }}</strong>
+    <p>Latest run</p>
+  </article>
+  <article class="report-kpi">
+    <span>Teacher accuracy</span>
+    <strong>{{ "%.3f"|format(metrics.dashboard_metrics.teacher_accuracy or 0.926) }}</strong>
+    <p>Current model read</p>
+  </article>
+  <article class="report-kpi">
+    <span>Failures found</span>
+    <strong>{{ metrics.dashboard_metrics.failures_found }}</strong>
+    <p>Across recorded runs</p>
+  </article>
+  <article class="report-kpi">
+    <span>Benchmark winner</span>
+    <strong>{{ metrics.comparison.winner|default('QAOA')|upper }}</strong>
+    <p>QAOA vs Monte Carlo</p>
+  </article>
+</div>
+
+<div class="report-summary-grid reveal">
+  <article class="panel panel-clean">
+    <div class="panel-header">
+      <h2>Quantum Tree</h2>
+      <span class="status-pill">Live</span>
+    </div>
+    <ul class="detail-list compact">
+      <li><span>Teacher accuracy</span><strong>{{ metrics.quantum_tree.summary.teacher_accuracy or 'n/a' }}</strong></li>
+      <li><span>Quantum backend</span><strong>{{ metrics.quantum_tree.summary.quantum_backend or metrics.quantum_tree.quantum_backend|default('qiskit-statevector') }}</strong></li>
+      <li><span>Student MSE</span><strong>{{ metrics.quantum_tree.summary.student_mse or 'n/a' }}</strong></li>
+      <li><span>Scenarios run</span><strong>{{ metrics.dashboard_metrics.total_runs }}</strong></li>
+    </ul>
+  </article>
+  <article class="panel panel-clean">
+    <div class="panel-header">
+      <h2>Benchmark</h2>
+      <span class="status-pill">QAOA vs MC</span>
+    </div>
+    <ul class="detail-list compact">
+      <li><span>Winner</span><strong>{{ metrics.comparison.winner|default('n/a') }}</strong></li>
+      <li><span>QAOA failures</span><strong>{{ metrics.comparison.summary.qaoa_unique_failures|default(0) }}</strong></li>
+      <li><span>MC failures</span><strong>{{ metrics.comparison.summary.mc_unique_failures|default(0) }}</strong></li>
+      <li><span>Avg risk score</span><strong>{{ metrics.dashboard_metrics.avg_risk_score }}</strong></li>
+    </ul>
+  </article>
+</div>
+
+{% if tier in ('api', 'enterprise', 'admin') %}
+<div class="report-downloads reveal">
+  <p class="report-downloads-label">Downloads</p>
+  <div class="report-downloads-strip">
+    {% if tier in ('api', 'admin') %}
+    <a class="report-download-item" href="{{ url_for('api_scenarios') }}">
+      <span class="rdi-icon">↓</span>
+      <div>
+        <strong>Scenario pack</strong>
+        <p>Quantum-biased scenarios · JSON</p>
+      </div>
+      <span class="tier-badge tier-api">API</span>
+    </a>
+    {% endif %}
+    {% if tier in ('enterprise', 'admin') %}
+    <a class="report-download-item" href="{{ url_for('api_report_latest') }}">
+      <span class="rdi-icon">↓</span>
+      <div>
+        <strong>Evidence pack</strong>
+        <p>DO-178C · Decision traces · Coverage</p>
+      </div>
+      <span class="tier-badge tier-cert">Enterprise</span>
+    </a>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+
+<div class="two-column" style="margin-top: 18px;">
+  <article class="panel panel-clean reveal">
+    <div class="panel-header">
+      <h2>Verification request</h2>
+      <span class="status-pill">5–10 day turnaround</span>
+    </div>
+    <p class="panel-copy">Open a formal verification request. Live evidence surfaces immediately; the full package is queued for longer compute and review.</p>
+    <form method="post" action="{{ url_for('request_verification') }}" class="verification-form">
+      <label>
+        <span>Model name</span>
+        <input type="text" name="model_name" placeholder="Flight policy v0.9">
+      </label>
+      <label>
+        <span>Scope</span>
+        <input type="text" name="scope" placeholder="Collision avoidance verification and failure ranking">
+      </label>
+      <button class="button button-primary" type="submit">Open request</button>
+    </form>
+  </article>
+
+  <article class="panel panel-clean reveal">
+    <div class="panel-header">
+      <h2>Verification queue</h2>
+    </div>
+    {% for request in metrics.verification_requests[:6] %}
+    <div class="verification-row">
+      <div>
+        <strong>{{ request.model_name }}</strong>
+        <p>{{ request.scope }}</p>
+      </div>
+      <div class="vr-right">
+        <span class="vr-status-chip vr-{{ request.status|lower|replace(' ', '-') }}">{{ request.status }}</span>
+        <a class="ghost-link" href="{{ request.chart_link }}">Chart ↗</a>
+      </div>
+    </div>
+    {% else %}
+    <p class="empty-copy">No verification requests yet.</p>
+    {% endfor %}
+  </article>
+</div>
+
+{% endblock %}

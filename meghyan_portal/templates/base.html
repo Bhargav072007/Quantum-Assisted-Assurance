@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}MeghyanAI{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}?v=9">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  {% block body %}{% endblock %}
+  <script src="{{ url_for('static', filename='js/site.js') }}?v=9"></script>
+</body>
+</html>

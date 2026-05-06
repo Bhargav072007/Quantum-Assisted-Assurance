@@ -1,0 +1,55 @@
+{% extends "app_base.html" %}
+{% block app_title %}Verification {{ verification.request_id }}{% endblock %}
+{% block app_subtitle %}Formal verification request opened for enterprise review and extended compute turnaround.{% endblock %}
+{% block app_content %}
+<section class="hero-panel">
+  <div class="hero-panel-copy">
+    <p class="eyebrow">Verification link</p>
+    <h2>{{ verification.model_name }}</h2>
+    <p>
+      {{ verification.scope }}
+    </p>
+  </div>
+  <div class="hero-panel-visual">
+    <div class="summary-stack">
+      <div class="summary-stack-row">
+        <span>Status</span>
+        <strong>{{ verification.status }}</strong>
+      </div>
+      <div class="summary-stack-row">
+        <span>Turnaround</span>
+        <strong>{{ verification.turnaround_days }} days</strong>
+      </div>
+      <div class="summary-stack-row">
+        <span>Token cost</span>
+        <strong>{{ verification.token_cost }}</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="two-column">
+  <article class="panel panel-clean">
+    <div class="panel-header">
+      <h2>Formal output</h2>
+    </div>
+    <ul class="detail-list">
+      <li><span>Request ID</span><strong>{{ verification.request_id }}</strong></li>
+      <li><span>Company</span><strong>{{ verification.company }}</strong></li>
+      <li><span>Requested by</span><strong>{{ verification.email }}</strong></li>
+      <li><span>Output posture</span><strong>{{ verification.formal_output }}</strong></li>
+    </ul>
+  </article>
+  <article class="panel panel-clean">
+    <div class="panel-header">
+      <h2>Linked evidence</h2>
+    </div>
+    <ul class="detail-list">
+      <li><span>Quantum backend</span><strong>{{ metrics.quantum_tree.summary.quantum_backend or 'n/a' }}</strong></li>
+      <li><span>Teacher accuracy</span><strong>{{ metrics.quantum_tree.summary.teacher_accuracy or 'n/a' }}</strong></li>
+      <li><span>Student MSE</span><strong>{{ metrics.quantum_tree.summary.student_mse or 'n/a' }}</strong></li>
+      <li><span>Benchmark winner</span><strong>{{ metrics.comparison.winner or 'n/a' }}</strong></li>
+    </ul>
+  </article>
+</section>
+{% endblock %}

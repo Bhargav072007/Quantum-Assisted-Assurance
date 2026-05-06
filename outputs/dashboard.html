@@ -50,9 +50,9 @@
       <p>This dashboard compares baseline search performance and the new Quantum Tree distillation architecture for the 3D two-aircraft separation scenario. Monte Carlo and QAOA remain directly comparable by iterations, while Quantum Tree is shown as a teacher-quantum-student training pipeline.</p>
       <div class="tag">Can QAOA-assisted exploration surface unsafe traffic separation behaviors faster than Monte Carlo?</div> <span class="tag alt-tag">Quantum Tree active: qiskit-statevector</span>
       <div class="verdict">
-        <div class="card"><h3>Research verdict</h3><div>QAOA outperforms Monte Carlo</div></div>
-        <div class="card"><h3>AUC advantage</h3><div>-80.0%</div></div>
-        <div class="card"><h3>Time to first failure</h3><div>QAOA 9 / MC 3</div></div>
+        <div class="card"><h3>Research verdict</h3><div>Monte Carlo remains stronger</div></div>
+        <div class="card"><h3>AUC advantage</h3><div>-100.0%</div></div>
+        <div class="card"><h3>Time to first failure</h3><div>QAOA None / MC 1</div></div>
       </div>
     </section>
 
@@ -64,8 +64,8 @@
   <rect width="560" height="240" fill="transparent"/>
   <line x1="48" y1="204" x2="540" y2="204" stroke="#cbd5e1"/>
   <line x1="48" y1="20" x2="48" y2="204" stroke="#cbd5e1"/>
-  <polyline points="48.0,204.0 102.7,204.0 157.3,20.0 212.0,20.0 266.7,20.0 321.3,20.0 376.0,20.0 430.7,20.0 485.3,20.0 540.0,20.0" fill="none" stroke="#94a3b8" stroke-width="3"/>
-  <polyline points="48.0,204.0 102.7,204.0 157.3,204.0 212.0,204.0 266.7,204.0 321.3,204.0 376.0,204.0 430.7,204.0 485.3,20.0 540.0,20.0" fill="none" stroke="#2563eb" stroke-width="3"/>
+  <polyline points="48.0,112.0 102.7,112.0 157.3,112.0 212.0,112.0 266.7,112.0 321.3,112.0 376.0,112.0 430.7,112.0 485.3,20.0 540.0,20.0" fill="none" stroke="#94a3b8" stroke-width="3"/>
+  <polyline points="48.0,204.0 102.7,204.0 157.3,204.0 212.0,204.0 266.7,204.0 321.3,204.0 376.0,204.0 430.7,204.0 485.3,204.0 540.0,204.0" fill="none" stroke="#2563eb" stroke-width="3"/>
   <text x="56" y="34" fill="#2563eb" font-size="11" font-weight="700">QAOA</text>
   <text x="110" y="34" fill="#64748b" font-size="11" font-weight="700">Monte Carlo</text>
   <text x="280" y="232" fill="#64748b" font-size="10" text-anchor="middle">Iterations</text>
@@ -78,7 +78,7 @@
         
 <svg width="360" height="220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Failure types bar chart">
   <line x1="18" y1="160" x2="344" y2="160" stroke="#cbd5e1"/>
-  <rect x="30" y="160.0" width="42" height="0.0" fill="#1d4ed8" rx="6"/><text x="51" y="154.0" text-anchor="middle" font-size="10" fill="#334155">0</text><text x="51" y="186" text-anchor="middle" font-size="10" fill="#64748b">QAOA SL</text><rect x="108" y="40.0" width="42" height="120.0" fill="#60a5fa" rx="6"/><text x="129" y="34.0" text-anchor="middle" font-size="10" fill="#334155">1</text><text x="129" y="186" text-anchor="middle" font-size="10" fill="#64748b">QAOA NM</text><rect x="186" y="160.0" width="42" height="0.0" fill="#475569" rx="6"/><text x="207" y="154.0" text-anchor="middle" font-size="10" fill="#334155">0</text><text x="207" y="186" text-anchor="middle" font-size="10" fill="#64748b">MC SL</text><rect x="264" y="40.0" width="42" height="120.0" fill="#94a3b8" rx="6"/><text x="285" y="34.0" text-anchor="middle" font-size="10" fill="#334155">1</text><text x="285" y="186" text-anchor="middle" font-size="10" fill="#64748b">MC NM</text>
+  <rect x="30" y="160.0" width="42" height="0.0" fill="#1d4ed8" rx="6"/><text x="51" y="154.0" text-anchor="middle" font-size="10" fill="#334155">0</text><text x="51" y="186" text-anchor="middle" font-size="10" fill="#64748b">QAOA SL</text><rect x="108" y="160.0" width="42" height="0.0" fill="#60a5fa" rx="6"/><text x="129" y="154.0" text-anchor="middle" font-size="10" fill="#334155">0</text><text x="129" y="186" text-anchor="middle" font-size="10" fill="#64748b">QAOA NM</text><rect x="186" y="40.0" width="42" height="120.0" fill="#475569" rx="6"/><text x="207" y="34.0" text-anchor="middle" font-size="10" fill="#334155">1</text><text x="207" y="186" text-anchor="middle" font-size="10" fill="#64748b">MC SL</text><rect x="264" y="40.0" width="42" height="120.0" fill="#94a3b8" rx="6"/><text x="285" y="34.0" text-anchor="middle" font-size="10" fill="#334155">1</text><text x="285" y="186" text-anchor="middle" font-size="10" fill="#64748b">MC NM</text>
 </svg>
 
         <div class="small">SL = separation loss, NM = near miss</div>
@@ -88,12 +88,12 @@
     <section class="subgrid">
       <div class="card stats">
         <h2>Panel 3 - Summary statistics</h2>
-        <p><span>QAOA unique failures</span><strong>1</strong></p>
-        <p><span>MC unique failures</span><strong>1</strong></p>
-        <p><span>QAOA AUC</span><strong>1.5</strong></p>
-        <p><span>MC AUC</span><strong>7.5</strong></p>
+        <p><span>QAOA unique failures</span><strong>0</strong></p>
+        <p><span>MC unique failures</span><strong>2</strong></p>
+        <p><span>QAOA AUC</span><strong>0.0</strong></p>
+        <p><span>MC AUC</span><strong>11.0</strong></p>
         <p><span>Mean unique failures</span><strong>1</strong></p>
-        <p><span>Std unique failures</span><strong>0.0</strong></p>
+        <p><span>Std unique failures</span><strong>1.0</strong></p>
       </div>
       <div class="card stats">
         <h2>Panel 4 - Circuit summary</h2>
@@ -1035,7 +1035,7 @@ q_7: ┤ H ├──────────────────────
             <th>#</th><th>Heading</th><th>Altitude</th><th>Speed</th><th>X offset</th><th>Min H sep</th><th>Min V sep</th><th>Type</th>
           </tr>
         </thead>
-        <tbody><tr><td>1</td><td>90 deg</td><td>32000 ft</td><td>5.0</td><td>10 NM</td><td>3.00 NM</td><td>1000 ft</td><td>near_miss</td></tr></tbody>
+        <tbody></tbody>
       </table>
     </section>
 
@@ -1046,19 +1046,19 @@ q_7: ┤ H ├──────────────────────
       </div>
       <div class="card stats">
         <h2>Quantum Tree - Teacher</h2>
-        <p><span>Teacher accuracy</span><strong>0.929688</strong></p>
-        <p><span>Teacher loss</span><strong>0.185039</strong></p>
-        <p><span>Mean teacher prob</span><strong>0.08047</strong></p>
+        <p><span>Teacher accuracy</span><strong>0.925781</strong></p>
+        <p><span>Teacher loss</span><strong>0.182206</strong></p>
+        <p><span>Mean teacher prob</span><strong>0.07968</strong></p>
       </div>
       <div class="card stats">
         <h2>Quantum Tree - Quantum Layer</h2>
         <p><span>Backend</span><strong>qiskit-statevector</strong></p>
-        <p><span>Mean quantum score</span><strong>0.608439</strong></p>
-        <p><span>Student mean score</span><strong>0.32082</strong></p>
+        <p><span>Mean quantum score</span><strong>0.733622</strong></p>
+        <p><span>Student mean score</span><strong>0.377248</strong></p>
       </div>
       <div class="card stats">
         <h2>Quantum Tree - Student</h2>
-        <p><span>Student MSE</span><strong>0.004043</strong></p>
+        <p><span>Student MSE</span><strong>0.007671</strong></p>
         <p><span>Top distilled states</span><strong>10</strong></p>
         <p><span>Use case</span><strong>Teacher -> Quantum -> Student</strong></p>
       </div>
@@ -1073,7 +1073,7 @@ q_7: ┤ H ├──────────────────────
             <th>#</th><th>Heading</th><th>Altitude</th><th>Speed</th><th>X offset</th><th>Teacher</th><th>Quantum</th><th>Distilled</th><th>Label</th>
           </tr>
         </thead>
-        <tbody><tr><td>1</td><td>75 deg</td><td>30000 ft</td><td>6.0</td><td>-10 NM</td><td>0.210</td><td>0.875</td><td>0.509</td><td>0</td></tr><tr><td>2</td><td>75 deg</td><td>30000 ft</td><td>5.0</td><td>-10 NM</td><td>0.153</td><td>0.880</td><td>0.480</td><td>1</td></tr><tr><td>3</td><td>90 deg</td><td>28000 ft</td><td>5.0</td><td>-10 NM</td><td>0.037</td><td>0.995</td><td>0.468</td><td>0</td></tr><tr><td>4</td><td>75 deg</td><td>30000 ft</td><td>6.0</td><td>10 NM</td><td>0.362</td><td>0.578</td><td>0.459</td><td>0</td></tr><tr><td>5</td><td>75 deg</td><td>28000 ft</td><td>3.0</td><td>-20 NM</td><td>0.030</td><td>0.969</td><td>0.453</td><td>0</td></tr><tr><td>6</td><td>90 deg</td><td>28000 ft</td><td>4.0</td><td>-10 NM</td><td>0.026</td><td>0.974</td><td>0.453</td><td>0</td></tr><tr><td>7</td><td>90 deg</td><td>30000 ft</td><td>6.0</td><td>0 NM</td><td>0.139</td><td>0.828</td><td>0.449</td><td>1</td></tr><tr><td>8</td><td>75 deg</td><td>30000 ft</td><td>5.0</td><td>10 NM</td><td>0.296</td><td>0.635</td><td>0.449</td><td>0</td></tr><tr><td>9</td><td>105 deg</td><td>32000 ft</td><td>5.0</td><td>10 NM</td><td>0.093</td><td>0.880</td><td>0.447</td><td>0</td></tr><tr><td>10</td><td>90 deg</td><td>28000 ft</td><td>6.0</td><td>-10 NM</td><td>0.058</td><td>0.891</td><td>0.433</td><td>0</td></tr></tbody>
+        <tbody><tr><td>1</td><td>75 deg</td><td>32000 ft</td><td>6.0</td><td>10 NM</td><td>0.517</td><td>0.682</td><td>0.592</td><td>0</td></tr><tr><td>2</td><td>75 deg</td><td>32000 ft</td><td>5.0</td><td>10 NM</td><td>0.403</td><td>0.807</td><td>0.585</td><td>0</td></tr><tr><td>3</td><td>75 deg</td><td>30000 ft</td><td>6.0</td><td>10 NM</td><td>0.389</td><td>0.802</td><td>0.575</td><td>0</td></tr><tr><td>4</td><td>75 deg</td><td>31000 ft</td><td>6.0</td><td>10 NM</td><td>0.455</td><td>0.714</td><td>0.571</td><td>0</td></tr><tr><td>5</td><td>75 deg</td><td>32000 ft</td><td>6.0</td><td>0 NM</td><td>0.442</td><td>0.688</td><td>0.553</td><td>0</td></tr><tr><td>6</td><td>75 deg</td><td>32000 ft</td><td>5.0</td><td>0 NM</td><td>0.323</td><td>0.807</td><td>0.541</td><td>1</td></tr><tr><td>7</td><td>75 deg</td><td>30000 ft</td><td>6.0</td><td>0 NM</td><td>0.311</td><td>0.807</td><td>0.534</td><td>0</td></tr><tr><td>8</td><td>75 deg</td><td>31000 ft</td><td>6.0</td><td>0 NM</td><td>0.376</td><td>0.719</td><td>0.530</td><td>0</td></tr><tr><td>9</td><td>90 deg</td><td>32000 ft</td><td>6.0</td><td>-20 NM</td><td>0.129</td><td>0.990</td><td>0.516</td><td>0</td></tr><tr><td>10</td><td>75 deg</td><td>32000 ft</td><td>6.0</td><td>-10 NM</td><td>0.362</td><td>0.682</td><td>0.506</td><td>0</td></tr></tbody>
       </table>
     </section>
 

@@ -124,6 +124,53 @@ Current example metrics:
 
 This is promising as a hybrid training architecture, but it is not yet a direct cumulative-failure benchmark like Monte Carlo vs QAOA.
 
+## MeghyanAI Portal
+
+This repo now also includes a minimal product shell for `MeghyanAI` that wraps the live assurance implementation with:
+
+- a YC-style landing page
+- enterprise login
+- admin vs customer access rules
+- a `Quantum Tree Studio` page
+- a chat-style `Analyst` workspace with token metering
+- run history, reports, and admin views
+- live triggers for the Qiskit-backed Quantum Tree and benchmark workflows
+
+Run it locally:
+
+```powershell
+& ".\.venv\Scripts\python.exe" -m meghyan_portal.app
+```
+
+Then open:
+
+- `http://127.0.0.1:5055`
+
+Demo credentials:
+
+- admin: `admin@meghyan.ai` / `admin-demo`
+- customer: `pilot@aerosafe.ai` / `pilot-demo`
+
+### Optional stronger LLM backend
+
+By default, the Analyst workspace uses the local `meghyan-analyst-local` fallback.
+
+To connect a stronger OpenAI-compatible provider, set these environment variables before starting the portal:
+
+```powershell
+$env:MEGHYAN_LLM_MODE="openai_compatible"
+$env:MEGHYAN_LLM_ENDPOINT="https://your-provider.example/v1"
+$env:MEGHYAN_LLM_API_KEY="your-api-key"
+$env:MEGHYAN_LLM_MODEL="your-chat-model"
+& ".\.venv\Scripts\python.exe" -m meghyan_portal.app
+```
+
+Notes:
+
+- `MEGHYAN_LLM_ENDPOINT` should point to an OpenAI-compatible `/v1` base URL
+- the portal sends chat-style messages to `/chat/completions`
+- if provider mode is selected but the endpoint or key is missing, the app will show that configuration is incomplete
+
 ## Dashboard
 
 Generate the dashboard with:

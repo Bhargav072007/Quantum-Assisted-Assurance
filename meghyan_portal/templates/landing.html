@@ -1,0 +1,492 @@
+{% extends "base.html" %}
+{% block title %}MeghyanAI | We break your AI before your customers do.{% endblock %}
+{% block body %}
+<div class="site-shell">
+  <header class="nav" data-nav>
+    <div class="nav-inner">
+      <a class="brand-lockup" href="{{ url_for('landing') }}">
+        <img class="brand-lockup-full" src="{{ url_for('static', filename='img/lockup-white.png') }}" alt="MeghyanAI">
+        <img class="brand-lockup-mark" src="{{ url_for('static', filename='img/mark-white.svg') }}" alt="MeghyanAI">
+      </a>
+      <nav class="nav-links">
+        <a href="#how-it-works">How it works</a>
+        <a href="#features">Demo</a>
+        <a href="{{ url_for('pricing') }}">Pricing</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="button button-secondary" href="{{ url_for('login') }}">Sign In</a>
+        <a class="button button-primary" href="{{ url_for('pricing') }}">Get started</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-section tight">
+      <svg class="hero-mandala" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g transform="translate(400 400)" fill="none" stroke="currentColor">
+          <!-- Concentric rings -->
+          <circle r="358" stroke-width="0.8"/>
+          <circle r="292" stroke-width="0.55"/>
+          <circle r="210" stroke-width="0.55"/>
+          <circle r="128" stroke-width="0.55"/>
+          <circle r="50"  stroke-width="0.8"/>
+          <circle r="9"   fill="currentColor" stroke="none"/>
+          <!-- 16 fine spokes -->
+          <g stroke-width="0.35" opacity="0.6">
+            <line y1="-358" y2="358"/>
+            <line y1="-358" y2="358" transform="rotate(22.5)"/>
+            <line y1="-358" y2="358" transform="rotate(45)"/>
+            <line y1="-358" y2="358" transform="rotate(67.5)"/>
+            <line y1="-358" y2="358" transform="rotate(90)"/>
+            <line y1="-358" y2="358" transform="rotate(112.5)"/>
+            <line y1="-358" y2="358" transform="rotate(135)"/>
+            <line y1="-358" y2="358" transform="rotate(157.5)"/>
+          </g>
+          <!-- Outer lotus petals: ring 292 → 358 -->
+          <g stroke-width="0.75">
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z"/>
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z" transform="rotate(45)"/>
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z" transform="rotate(90)"/>
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z" transform="rotate(135)"/>
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z" transform="rotate(180)"/>
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z" transform="rotate(225)"/>
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z" transform="rotate(270)"/>
+            <path d="M0-292 C62-308 62-344 0-358 C-62-344 -62-308 0-292z" transform="rotate(315)"/>
+          </g>
+          <!-- Mid lotus petals: ring 128 → 210 -->
+          <g stroke-width="0.75">
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z"/>
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z" transform="rotate(45)"/>
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z" transform="rotate(90)"/>
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z" transform="rotate(135)"/>
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z" transform="rotate(180)"/>
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z" transform="rotate(225)"/>
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z" transform="rotate(270)"/>
+            <path d="M0-128 C44-148 44-192 0-210 C-44-192 -44-148 0-128z" transform="rotate(315)"/>
+          </g>
+          <!-- Inner spoke diamonds between ring 50 and 128 -->
+          <g stroke-width="0.6">
+            <path d="M0-50 L14-89 0-128 -14-89z"/>
+            <path d="M0-50 L14-89 0-128 -14-89z" transform="rotate(45)"/>
+            <path d="M0-50 L14-89 0-128 -14-89z" transform="rotate(90)"/>
+            <path d="M0-50 L14-89 0-128 -14-89z" transform="rotate(135)"/>
+            <path d="M0-50 L14-89 0-128 -14-89z" transform="rotate(180)"/>
+            <path d="M0-50 L14-89 0-128 -14-89z" transform="rotate(225)"/>
+            <path d="M0-50 L14-89 0-128 -14-89z" transform="rotate(270)"/>
+            <path d="M0-50 L14-89 0-128 -14-89z" transform="rotate(315)"/>
+          </g>
+          <!-- Dot accents on outer ring (16 pts) -->
+          <g fill="currentColor" stroke="none">
+            <circle r="4" cy="-358"/>
+            <circle r="4" cy="-358" transform="rotate(22.5)"/>
+            <circle r="4" cy="-358" transform="rotate(45)"/>
+            <circle r="4" cy="-358" transform="rotate(67.5)"/>
+            <circle r="4" cy="-358" transform="rotate(90)"/>
+            <circle r="4" cy="-358" transform="rotate(112.5)"/>
+            <circle r="4" cy="-358" transform="rotate(135)"/>
+            <circle r="4" cy="-358" transform="rotate(157.5)"/>
+            <circle r="4" cy="-358" transform="rotate(180)"/>
+            <circle r="4" cy="-358" transform="rotate(202.5)"/>
+            <circle r="4" cy="-358" transform="rotate(225)"/>
+            <circle r="4" cy="-358" transform="rotate(247.5)"/>
+            <circle r="4" cy="-358" transform="rotate(270)"/>
+            <circle r="4" cy="-358" transform="rotate(292.5)"/>
+            <circle r="4" cy="-358" transform="rotate(315)"/>
+            <circle r="4" cy="-358" transform="rotate(337.5)"/>
+          </g>
+          <!-- Dot accents on mid ring diagonal spokes -->
+          <g fill="currentColor" stroke="none">
+            <circle r="3" cy="-210" transform="rotate(22.5)"/>
+            <circle r="3" cy="-210" transform="rotate(67.5)"/>
+            <circle r="3" cy="-210" transform="rotate(112.5)"/>
+            <circle r="3" cy="-210" transform="rotate(157.5)"/>
+            <circle r="3" cy="-210" transform="rotate(202.5)"/>
+            <circle r="3" cy="-210" transform="rotate(247.5)"/>
+            <circle r="3" cy="-210" transform="rotate(292.5)"/>
+            <circle r="3" cy="-210" transform="rotate(337.5)"/>
+          </g>
+        </g>
+      </svg>
+      <div class="container hero">
+        <div class="reveal">
+          <span class="eyebrow">AI safety testing</span>
+          <h1>We break your AI before your customers do.</h1>
+          <p class="lead">
+            Upload your model. We find the failure cases you would rather catch now
+            than after launch.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#live-demo">Run a Free Red Team</a>
+            <a class="button button-secondary" href="#packages">See Packages</a>
+          </div>
+          <div class="hero-metrics">
+            <article class="metric-card reveal">
+              <strong>60s</strong>
+              <span>See your first result</span>
+            </article>
+            <article class="metric-card reveal">
+              <strong>1 upload</strong>
+              <span>Start with your current model</span>
+            </article>
+            <article class="metric-card reveal">
+              <strong>Clear report</strong>
+              <span>Know what needs attention</span>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features-section">
+      <div class="container">
+        <div class="features-header reveal">
+          <p class="features-eyebrow">What MeghyanAI does</p>
+          <h2 class="features-headline">Built for the people who can't afford to be wrong</h2>
+        </div>
+
+        <div class="feature-block">
+          <div data-anim="scale"><div class="feature-chat">
+            <div class="chat-header">
+              <div class="chat-avatar">M</div>
+              <span>MeghyanAI Analyst</span>
+              <span class="chat-status">● Online</span>
+            </div>
+            <div class="chat-messages" id="chat-demo-1"></div>
+          </div></div>
+          <div class="feature-copy reveal">
+            <p class="feature-eyebrow">For operators and safety teams</p>
+            <h3 class="feature-headline">Ask it anything about your fleet's risk</h3>
+            <p class="feature-body">
+              Upload your autonomous system's policy and ask MeghyanAI plain questions.
+              It finds the dangerous scenarios your team hasn't thought of yet before your aircraft does.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-block reverse">
+          <div data-anim="scale"><div class="feature-terminal">
+            <div class="terminal-header">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot amber"></span>
+              <span class="terminal-dot green"></span>
+              <span class="terminal-title">scenario_api.py</span>
+            </div>
+            <div class="terminal-body">
+              <div class="terminal-line" id="term-line-1"></div>
+              <div class="terminal-line" id="term-line-2"></div>
+              <div class="terminal-line" id="term-line-3"></div>
+              <div class="terminal-line output" id="term-output"></div>
+            </div>
+          </div></div>
+          <div class="feature-copy reveal">
+            <p class="feature-eyebrow">For ML engineers</p>
+            <h3 class="feature-headline">Stop training on the easy stuff</h3>
+            <p class="feature-body">
+              Your autonomous AI has never seen the scenarios that actually cause failures because
+              they are too rare for random simulation to find. MeghyanAI generates quantum-biased
+              edge cases your model needs before deployment.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-block">
+          <div data-anim="scale"><div class="feature-gauge-showcase">
+            <div class="gauge-label-top">Your AI policy · v2.3.1</div>
+            <svg viewBox="0 0 200 200" width="200" height="200" class="showcase-gauge">
+              <circle cx="100" cy="100" r="80" fill="none" stroke="#1E1E1E" stroke-width="12"/>
+              <circle id="showcase-arc" cx="100" cy="100" r="80" fill="none"
+                      stroke="#10B981" stroke-width="12" stroke-linecap="round"
+                      stroke-dasharray="0 503" transform="rotate(-90 100 100)"/>
+              <text id="showcase-score" x="100" y="95" text-anchor="middle"
+                    fill="#F5F5F5" font-size="42" font-weight="200">--</text>
+              <text x="100" y="125" text-anchor="middle" fill="#9CA3AF" font-size="13">RISK SCORE</text>
+            </svg>
+            <div class="gauge-breakdown" id="gauge-breakdown" style="opacity:0">
+              <div class="breakdown-item critical">
+                <span class="breakdown-dot"></span>
+                <span>2 critical failures</span>
+              </div>
+              <div class="breakdown-item high">
+                <span class="breakdown-dot"></span>
+                <span>4 high severity</span>
+              </div>
+              <div class="breakdown-item medium">
+                <span class="breakdown-dot"></span>
+                <span>7 medium severity</span>
+              </div>
+            </div>
+            <div class="gauge-verdict" id="gauge-verdict" style="opacity:0">
+              Needs remediation before deployment
+            </div>
+          </div></div>
+          <div class="feature-copy reveal">
+            <p class="feature-eyebrow">For founders and CTOs</p>
+            <h3 class="feature-headline">One number that tells you if your AI is ready</h3>
+            <p class="feature-body">
+              Before you demo to investors, before you go to market, before you hand controls
+              to an autonomous system, know your risk score. Anything above 70 means the model
+              needs more work.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-block reverse">
+          <div data-anim="scale"><div class="feature-report">
+            <div class="report-header">
+              <div class="report-logo">M</div>
+              <div>
+                <div class="report-title">Verification Report</div>
+                <div class="report-meta">DO-178C · v2.3.1 · 2026-05-02</div>
+              </div>
+              <div class="report-badge">Signed</div>
+            </div>
+            <div class="report-rows">
+              <div class="report-row">
+                <span class="row-label">Risk score</span>
+                <span class="row-value critical">73 / 100</span>
+              </div>
+              <div class="report-row">
+                <span class="row-label">Scenarios tested</span>
+                <span class="row-value">500</span>
+              </div>
+              <div class="report-row">
+                <span class="row-label">State space coverage</span>
+                <span class="row-value">34%</span>
+              </div>
+              <div class="report-row">
+                <span class="row-label">Critical failures</span>
+                <span class="row-value critical">2</span>
+              </div>
+              <div class="report-row">
+                <span class="row-label">Quantum backend</span>
+                <span class="row-value">IBM Qiskit Aer</span>
+              </div>
+              <div class="report-row">
+                <span class="row-label">Teacher accuracy</span>
+                <span class="row-value">92.6%</span>
+              </div>
+            </div>
+            <div class="report-actions">
+              <div class="report-btn">Download PDF</div>
+              <div class="report-btn">decision_traces.jsonl</div>
+            </div>
+          </div></div>
+          <div class="feature-copy reveal">
+            <p class="feature-eyebrow">For certification engineers</p>
+            <h3 class="feature-headline">The evidence your regulator actually wants</h3>
+            <p class="feature-body">
+              Stop manually documenting test coverage. MeghyanAI generates the evidence pack:
+              failure catalog, decision traces, coverage metrics, and a signed report formatted
+              for real review workflows.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tech-section reveal">
+      <div class="tech-header">
+        <p class="features-eyebrow">Under the hood</p>
+        <h2 class="features-headline tech-headline">Powered by real quantum computing research</h2>
+      </div>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="tech-icon">⬡</div>
+          <div class="tech-name">IBM Qiskit</div>
+          <div class="tech-desc">Quantum circuits run on Qiskit Aer statevector simulation. No hardware account required for the demo.</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">◈</div>
+          <div class="tech-name">Quantum Tree distillation</div>
+          <div class="tech-desc">Teacher, quantum refinement, then student. A three-layer hybrid pipeline behind every run.</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">▣</div>
+          <div class="tech-name">ICAO-standard failure criteria</div>
+          <div class="tech-desc">Separation loss uses real aviation thresholds so the results map to practical safety review.</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">◎</div>
+          <div class="tech-name">Penn State ICDS research</div>
+          <div class="tech-desc">Developed on research computing infrastructure as a real model pipeline, not a marketing mock.</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">⬟</div>
+          <div class="tech-name">DO-178C aligned output</div>
+          <div class="tech-desc">Evidence packages can be shaped into formal review artifacts, decision traces, and coverage reports.</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-icon">◉</div>
+          <div class="tech-name">Black-box compatible</div>
+          <div class="tech-desc">Upload ONNX, PyTorch, or packaged policy artifacts without exposing internal model weights.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="live-demo" class="page-section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Live demo</span>
+          <h2 class="section-title">See it in action, no signup required.</h2>
+          <p class="section-copy">
+            Pick a scenario. We run the real Quantum Tree pipeline. Results in about 60 seconds.
+          </p>
+        </div>
+        <div class="demo-layout">
+          <article class="demo-panel reveal">
+            <span class="badge">Free red team</span>
+            <div class="demo-scenarios" data-demo-scenarios>
+              <button class="scenario-option active" type="button" data-scenario="collision">Collision Avoidance</button>
+              <button class="scenario-option" type="button" data-scenario="separation">Traffic Separation</button>
+              <button class="scenario-option" type="button" data-scenario="obstacle">Obstacle Detection</button>
+            </div>
+            <div class="button-row">
+              <button class="btn-primary" type="button" data-demo-run>Run Red Team</button>
+              <a class="button button-secondary" href="{{ url_for('login') }}">Get the full report</a>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-bar" aria-hidden="true">
+                <div class="progress-bar-fill" data-demo-progress></div>
+              </div>
+              <div class="progress-stages">
+                <span data-progress-stage="teacher">Teacher analyzing</span>
+                <span data-progress-stage="quantum">Quantum refining</span>
+                <span data-progress-stage="student">Student scoring</span>
+              </div>
+            </div>
+            <p class="demo-meta" data-demo-status>Ready to run. <strong>3 free demos</strong> per hour.</p>
+          </article>
+
+          <aside class="results-shell reveal" data-demo-results hidden>
+            <article class="demo-panel">
+              <div class="gauge">
+                <svg class="gauge-svg" viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="gauge-track" cx="60" cy="60" r="54"></circle>
+                  <circle class="gauge-fill" id="gauge-arc" cx="60" cy="60" r="50" data-gauge-fill transform="rotate(-90 60 60)"></circle>
+                </svg>
+                <div class="gauge-center">
+                  <strong id="gauge-score" data-risk-score>0</strong>
+                  <span>Risk score</span>
+                </div>
+              </div>
+              <div class="failure-stats">
+                <div>
+                  <strong data-failure-count>0 failures discovered</strong>
+                  <span class="section-copy" data-scenario-label>Collision avoidance</span>
+                </div>
+                <div class="detail-pills" data-severity-pills></div>
+              </div>
+            </article>
+
+            <article class="demo-panel">
+              <span class="badge">Top failures</span>
+              <div class="result-failures" data-top-failures></div>
+              <div class="quantum-meta" data-demo-meta>
+                Powered by IBM Qiskit · Teacher accuracy: 0.93 · Backend: qiskit-statevector
+              </div>
+            </article>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="page-section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">How it works</span>
+          <h2 class="section-title">Three real stages, one product workflow.</h2>
+        </div>
+        <div class="workflow-grid">
+          <article class="workflow-card reveal">
+            <span class="label">01</span>
+            <h3>Classical Teacher</h3>
+            <p class="card-copy">Learns the behavior surface and flags where risk is likely to hide.</p>
+          </article>
+          <article class="workflow-card reveal">
+            <span class="label">02</span>
+            <h3>Quantum Refinement</h3>
+            <p class="card-copy">Uses Qiskit to bias the search toward rare, safety-critical failures.</p>
+          </article>
+          <article class="workflow-card reveal">
+            <span class="label">03</span>
+            <h3>Distilled Student</h3>
+            <p class="card-copy">Turns the run into a reusable testing layer for continuous assurance.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="packages" class="page-section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow">Packages</span>
+          <h2 class="section-title">Sellable workflows backed by the real pipeline.</h2>
+        </div>
+        <div class="pricing-grid">
+          <article class="pricing-card reveal">
+            <span class="tier-redteam">Red Team Scan</span>
+            <div class="price"><strong>$2,500</strong><span>/run</span></div>
+            <p class="card-copy">Single-policy stress test with failure ranking, risk score, and decision traces.</p>
+            <ul class="pricing-features">
+              <li>Fast red team execution</li>
+              <li>Top failure catalog</li>
+              <li>Launch-readiness review</li>
+            </ul>
+          </article>
+          <article class="pricing-card featured reveal">
+            <span class="tier-api">Scenario API</span>
+            <div class="price"><strong>$500</strong><span>/month</span></div>
+            <p class="card-copy">Quantum-biased scenario generation for training and regression pipelines.</p>
+            <ul class="pricing-features">
+              <li>Batch scenario delivery</li>
+              <li>JSON-ready outputs</li>
+              <li>For ML and simulation teams</li>
+            </ul>
+          </article>
+          <article class="pricing-card reveal">
+            <span class="tier-cert">Certification Pack</span>
+            <div class="price"><strong>$10,000</strong><span>/audit</span></div>
+            <p class="card-copy">Evidence package for formal review, audit preparation, and safety stakeholders.</p>
+            <ul class="pricing-features">
+              <li>Comparator evidence</li>
+              <li>Coverage and trace outputs</li>
+              <li>Boardroom-ready reporting</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing-preview" class="page-section">
+      <div class="container trust-grid">
+        <article class="trust-card reveal">
+          <h3>Built for aviation first</h3>
+          <p class="trust-copy">Collision avoidance, traffic separation, and obstacle-driven decision systems.</p>
+        </article>
+        <article class="trust-card reveal">
+          <h3>Powered by research</h3>
+          <p class="trust-copy">IBM Qiskit · Quantum Tree distillation · Penn State ICDS research.</p>
+        </article>
+        <article class="trust-card reveal">
+          <h3>Ready for buyers</h3>
+          <p class="trust-copy">A clean product surface with gated access for customers, teams, and audits.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+      <div class="footer-inner">
+      <div class="brand-lockup">
+        <img class="brand-lockup-full" src="{{ url_for('static', filename='img/lockup-white.png') }}" alt="MeghyanAI">
+        <img class="brand-lockup-mark" src="{{ url_for('static', filename='img/mark-white.svg') }}" alt="MeghyanAI">
+      </div>
+      <div class="footer-links">
+        <a href="{{ url_for('pricing') }}">Pricing</a>
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="https://github.com/Bhargav072007/Quantum-Assisted-Assurance">GitHub</a>
+      </div>
+    </div>
+  </footer>
+</div>
+{% endblock %}

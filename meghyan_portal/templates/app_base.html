@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand-lockup">
+      <img src="{{ url_for('static', filename='img/mark-white.svg') }}" alt="MeghyanAI logo">
+      <div>
+        <strong>MeghyanAI</strong>
+        <span>{{ current_user.company }}</span>
+      </div>
+    </div>
+    <nav class="side-nav">
+      <a class="{{ 'active' if page == 'dashboard' else '' }}" href="{{ url_for('dashboard') }}">Overview</a>
+      <a class="{{ 'active' if page == 'studio' else '' }}" href="{{ url_for('studio') }}">Studio</a>
+      <a class="{{ 'active' if page == 'assistant' else '' }}" href="{{ url_for('assistant') }}">Analyst</a>
+      <a class="{{ 'active' if page == 'runs' else '' }}" href="{{ url_for('runs') }}">Runs</a>
+      <a class="{{ 'active' if page == 'reports' else '' }}" href="{{ url_for('reports') }}">Reports</a>
+      {% if current_user.role == 'admin' %}
+      <a class="{{ 'active' if page == 'admin' else '' }}" href="{{ url_for('admin') }}">Admin</a>
+      {% endif %}
+    </nav>
+    <div class="sidebar-footer">
+      <span class="eyebrow">Access mode</span>
+      <strong>{{ 'Unlimited admin access' if current_user.role == 'admin' else current_user.credits ~ ' credits remaining' }}</strong>
+      <small>{{ 'Unlimited analyst tokens' if current_user.role == 'admin' else current_user.token_balance ~ ' analyst tokens' }}</small>
+      <a class="ghost-link" href="{{ url_for('logout') }}">Sign out</a>
+    </div>
+  </aside>
+
+  <div class="app-main">
+    <header class="topbar topbar-clean">
+      <div class="topbar-copy">
+        <h1>{% block app_title %}{% endblock %}</h1>
+        <p>{% block app_subtitle %}{% endblock %}</p>
+      </div>
+      <div class="topbar-user glass-chip">
+        <strong>{{ current_user.name }}</strong>
+        <small>{{ current_user.role|title }}</small>
+      </div>
+    </header>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-stack app-flash">
+          {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    <main class="page-content">
+      {% block app_content %}{% endblock %}
+    </main>
+  </div>
+</div>
+{% endblock %}

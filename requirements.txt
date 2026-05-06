@@ -3,3 +3,4 @@ pytest>=8.0
 qiskit>=1.2
 qiskit-aer>=0.15
 qiskit-algorithms>=0.3
+Flask>=3.0

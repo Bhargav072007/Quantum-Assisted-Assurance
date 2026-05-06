@@ -1,0 +1,73 @@
+{% extends "app_base.html" %}
+{% block app_title %}Overview{% endblock %}
+{% block app_subtitle %}Live assurance posture.{% endblock %}
+{% block app_content %}
+
+<section class="metric-grid metric-grid-clean">
+  <article class="metric-card metric-card-clean">
+    <span>Risk score</span>
+    <strong>{{ metrics.latest_run.risk_score|default(metrics.latest_tree_risk) }}</strong>
+  </article>
+  <article class="metric-card metric-card-clean">
+    <span>Teacher accuracy</span>
+    <strong>{{ "%.3f"|format(metrics.dashboard_metrics.teacher_accuracy or 0.926) }}</strong>
+  </article>
+  <article class="metric-card metric-card-clean">
+    <span>Failures found</span>
+    <strong>{{ metrics.dashboard_metrics.failures_found }}</strong>
+  </article>
+  <article class="metric-card metric-card-clean">
+    <span>Total runs</span>
+    <strong>{{ metrics.dashboard_metrics.total_runs }}</strong>
+  </article>
+</section>
+
+<section class="panel panel-clean" style="margin-top: 18px;">
+  <div class="panel-header">
+    <h2>Latest run</h2>
+    <span class="status-pill">{{ metrics.latest_run.package_tier|default('redteam')|title }}</span>
+  </div>
+  <div class="dashboard-latest-run">
+    <div class="dashboard-gauge-wrap">
+      <svg viewBox="0 0 120 120" width="120" height="120">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="#1E1E1E" stroke-width="8"/>
+        <circle id="gauge-arc" cx="60" cy="60" r="50" fill="none"
+                stroke="#10B981" stroke-width="8" stroke-linecap="round"
+                stroke-dasharray="0 314" transform="rotate(-90 60 60)"
+                style="transition: stroke-dasharray 1s ease, stroke 0.5s ease"/>
+        <text id="gauge-score" x="60" y="64" text-anchor="middle"
+              fill="#F5F5F5" font-size="22" font-weight="300"
+              dominant-baseline="central">--</text>
+        <text x="60" y="82" text-anchor="middle" fill="#9CA3AF" font-size="9">RISK</text>
+      </svg>
+    </div>
+    <ul class="detail-list compact" style="flex:1">
+      <li><span>Run ID</span><strong>{{ metrics.latest_run.run_id|default('run-latest') }}</strong></li>
+      <li><span>Scenario</span><strong>{{ metrics.latest_run.scenario_type|default('collision') }}</strong></li>
+      <li><span>Backend</span><strong>{{ metrics.latest_run.quantum_backend|default(metrics.quantum_tree.quantum_backend|default('qiskit-statevector')) }}</strong></li>
+      <li><span>Timestamp</span><strong>{{ metrics.latest_run.timestamp|default('Latest available') }}</strong></li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel panel-clean" style="margin-top: 18px;">
+  <div class="panel-header">
+    <h2>Run history</h2>
+    <a class="ghost-link" href="{{ url_for('runs') }}">View all</a>
+  </div>
+  {% for run in metrics.run_history[:5] %}
+  <div class="dashboard-stat-row">
+    <span>{{ run.scenario_type|default('n/a')|title }} · {{ run.timestamp|default('') }}</span>
+    <strong class="risk-{{ 'low' if (run.risk_score|default(metrics.latest_tree_risk)) < 40 else 'medium' if (run.risk_score|default(metrics.latest_tree_risk)) < 70 else 'high' }}">{{ run.risk_score|default(metrics.latest_tree_risk) }}</strong>
+  </div>
+  {% else %}
+  <p class="empty-copy">No runs recorded yet.</p>
+  {% endfor %}
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    updateGauge({{ metrics.latest_run.risk_score|default(metrics.latest_tree_risk) }});
+  });
+</script>
+{% endblock %}
