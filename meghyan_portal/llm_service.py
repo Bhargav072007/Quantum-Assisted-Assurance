@@ -318,7 +318,13 @@ def generate_llm_response(prompt: str, metrics: Dict[str, Any], mode: str = "int
     messages = build_messages(prompt, metrics, mode, history)
     config = llm_config()
     if config["mode"] == "anthropic":
-        return _post_anthropic(messages)
+        try:
+            return _post_anthropic(messages)
+        except Exception:
+            return _local_reasoner(prompt, metrics, mode, history)
     if config["mode"] == "openai_compatible":
-        return _post_openai_compatible(messages)
+        try:
+            return _post_openai_compatible(messages)
+        except Exception:
+            return _local_reasoner(prompt, metrics, mode, history)
     return _local_reasoner(prompt, metrics, mode, history)

@@ -3,7 +3,6 @@
 {% block body %}
 <div class="login-screen">
   <div class="login-wrap">
-
     <section class="login-copy">
       <a class="brand-lockup login-brandline" href="{{ url_for('landing') }}">
         <img src="{{ url_for('static', filename='img/mark-white.svg') }}" alt="MeghyanAI" style="width:36px;height:36px;border-radius:8px;">
@@ -33,17 +32,26 @@
       <form method="post" class="login-form">
         <label>
           <span>Email</span>
-          <input name="email" type="email" placeholder="you@example.com" required>
+          <input name="email" type="email" placeholder="admin@meghyan.ai" required>
         </label>
         <label>
           <span>Password</span>
-          <input name="password" type="password" placeholder="••••••••" required>
+          <input name="password" type="password" placeholder="admin-demo" required>
         </label>
         <button class="button button-primary" type="submit">Continue</button>
       </form>
-      <p class="login-note">Contact your workspace admin for access.</p>
+      <div class="demo-credentials demo-credentials-minimal">
+        <div>
+          <strong>Admin demo</strong>
+          <span>admin@meghyan.ai / admin-demo</span>
+        </div>
+        <div>
+          <strong>Customer demo</strong>
+          <span>pilot@aerosafe.ai / pilot-demo</span>
+        </div>
+      </div>
+      <p class="login-note">Demo access to the live product shell and assurance engine.</p>
     </section>
-
   </div>
 </div>
 {% endblock %}
