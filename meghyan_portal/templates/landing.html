@@ -12,15 +12,11 @@
         <a href="#how-it-works">How it works</a>
         <a href="#features">Demo</a>
         <a href="{{ url_for('pricing') }}">Pricing</a>
-        <div class="nav-actions" id="nav-actions-mobile">
+        <div class="nav-actions" id="nav-actions">
           <a class="button button-secondary" href="{{ url_for('login') }}">Sign In</a>
           <a class="button button-primary" href="{{ url_for('pricing') }}">Get started</a>
         </div>
       </nav>
-      <div class="nav-actions" id="nav-actions-desktop">
-        <a class="button button-secondary" href="{{ url_for('login') }}">Sign In</a>
-        <a class="button button-primary" href="{{ url_for('pricing') }}">Get started</a>
-      </div>
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>

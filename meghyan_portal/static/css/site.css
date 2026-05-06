@@ -178,6 +178,7 @@ img {
 .nav-links {
   color: var(--muted);
   font-size: 14px;
+  margin-left: auto;
 }
 
 .nav-links a,
@@ -3001,7 +3002,7 @@ img {
     display: none;
   }
 
-  .nav-actions.open {
+  .nav-links .nav-actions {
     display: flex;
     flex-direction: column;
     padding: 12px 24px 4px;
