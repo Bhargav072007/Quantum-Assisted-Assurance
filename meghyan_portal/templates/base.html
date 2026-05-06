@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}MeghyanAI{% endblock %}</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/mark-white.svg') }}">
+  <link rel="alternate icon" type="image/png" href="{{ url_for('static', filename='img/lockup-white.png') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}?v=10">
 </head>
 <body class="{% block body_class %}{% endblock %}">
