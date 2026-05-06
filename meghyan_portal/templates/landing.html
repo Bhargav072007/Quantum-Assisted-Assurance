@@ -8,15 +8,22 @@
         <img class="brand-lockup-full" src="{{ url_for('static', filename='img/lockup-white.png') }}" alt="MeghyanAI">
         <img class="brand-lockup-mark" src="{{ url_for('static', filename='img/mark-white.svg') }}" alt="MeghyanAI">
       </a>
-      <nav class="nav-links">
+      <nav class="nav-links" id="nav-links">
         <a href="#how-it-works">How it works</a>
         <a href="#features">Demo</a>
         <a href="{{ url_for('pricing') }}">Pricing</a>
+        <div class="nav-actions" id="nav-actions-mobile">
+          <a class="button button-secondary" href="{{ url_for('login') }}">Sign In</a>
+          <a class="button button-primary" href="{{ url_for('pricing') }}">Get started</a>
+        </div>
       </nav>
-      <div class="nav-actions">
+      <div class="nav-actions" id="nav-actions-desktop">
         <a class="button button-secondary" href="{{ url_for('login') }}">Sign In</a>
         <a class="button button-primary" href="{{ url_for('pricing') }}">Get started</a>
       </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
 
