@@ -595,7 +595,10 @@ def request_verification() -> Any:
 
 
 def main() -> None:
-    app.run(debug=True, port=5055)
+    import os
+    port = int(os.environ.get("PORT", 5055))
+    debug = os.environ.get("FLASK_ENV") == "development"
+    app.run(host="0.0.0.0", port=port, debug=debug)
 
 
 if __name__ == "__main__":
